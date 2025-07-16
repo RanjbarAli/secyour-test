@@ -1,0 +1,17 @@
+services:
+  secyour-frontend:
+    image: reg.arsalanse.ir/secyour/frontend:${TAG:-latest}
+    container_name: secyour-frontend
+    restart: unless-stopped
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.routers.secyour-frontend.entrypoints=http"
+      - "traefik.http.routers.secyour-frontend.rule=Host(`secyour.ir`)"
+      - "traefik.http.services.secyour-frontend.loadbalancer.server.port=3000"
+
+networks:
+  web:
+    external: true

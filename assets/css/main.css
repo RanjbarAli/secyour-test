@@ -1,0 +1,180 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Yekan Bakh";
+    src: url("../fonts/YekanBakh-Regular.eot");
+    src: url("../fonts/YekanBakh-Regular.eot?#iefix")
+            format("embedded-opentype"),
+        url("../fonts/YekanBakh-Regular.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Yekan Bakh";
+    src: url("../fonts/YekanBakh-Bold.eot");
+    src: url("../fonts/YekanBakh-Bold.eot?#iefix") format("embedded-opentype"),
+        url("../fonts/YekanBakh-Bold.woff") format("woff");
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Yekan Bakh";
+    src: url("../fonts/YekanBakh-Heavy.eot");
+    src: url("../fonts/YekanBakh-Heavy.eot?#iefix") format("embedded-opentype"),
+        url("../fonts/YekanBakh-Heavy.woff") format("woff");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@layer base {
+    html,
+    body {
+        direction: rtl;
+        @apply scroll-smooth text-white;
+    }
+    ::-webkit-scrollbar,
+    *::-webkit-scrollbar {
+        width: 8px;
+    }
+    * {
+        @apply m-0 p-0 list-none box-border;
+        font-family: "Yekan Bakh", Arial, sans-serif;
+        text-decoration: none;
+        transition: all 0.25s ease;
+        letter-spacing: 0.02rem;
+        scrollbar-width: thin;
+    }
+    button,
+    input[type="submit"] {
+        @apply cursor-pointer text-sm disabled:opacity-70 disabled:cursor-default;
+    }
+    a {
+        color: unset;
+    }
+    .card {
+        @apply float-right w-full;
+    }
+    input:focus,
+    textarea:focus,
+    button:focus {
+        outline: none;
+    }
+    input,
+    textarea {
+        background: inherit;
+    }
+    .container {
+        width: min(1140px, 100%);
+        @apply px-5 mx-auto
+    }
+    .highlight-html {
+        word-spacing: 1px;
+    }
+    .highlight-html a:link {
+        @apply text-blue-500 dark:text-blue-400 underline underline-offset-8 hover:text-blue-700 dark:hover:text-blue-200
+    }
+    .animation-spin {
+        animation: animation-spin 3.5s linear infinite;
+    }
+    @keyframes animation-spin {
+        from {
+            transform: rotate(0);
+        }
+        to {
+            transform: rotate(-360deg);
+        }
+    }
+
+    .wow.animated {
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-iteration-count: 1;
+    }
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+    .wow.animated.a-fadeIn {
+        animation-name: fadeIn;
+    }
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translate3d(0, 50px, 0);
+        }
+
+        to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+    }
+    .wow.animated.a-fadeInUp {
+        animation-name: fadeInUp;
+    }
+    @media screen and (max-width: 560px) {
+        .wow.animated.xs\:a-fadeInUp {
+            animation-name: fadeInUp;
+        }
+    }
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translate3d(0, -50px, 0);
+        }
+
+        to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+    }
+    .wow.animated.a-fadeInDown {
+        animation-name: fadeInDown;
+    }
+    .isLoading {
+        background-image: linear-gradient(
+            110deg,
+            #ececec 8%,
+            #fcfcfc 18%,
+            #ececec 33%
+        );
+        background-size: 200% 100%;
+        animation: 1s shine linear infinite;
+        display: block;
+        margin: 5px auto;
+        max-width: 100%;
+    }
+    .dark .isLoading {
+        background-image: linear-gradient(
+            110deg,
+            #ffffff20 8%,
+            #ffffff30 18%,
+            #ffffff20 33%
+        );
+    }
+    @keyframes shine {
+        to {
+            background-position-x: -200%;
+        }
+    }
+
+    .x-flip {
+        transform: rotateX(180deg);
+        transform-origin: center;
+    }
+    .y-flip {
+        transform: rotateY(180deg);
+        transform-origin: center;
+    }
+}
