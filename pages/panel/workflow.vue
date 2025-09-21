@@ -30,9 +30,7 @@ const premiumHtml = `
 
 onMounted(async () => {
   if (!process.client) return; // فقط client-side
-  await import('drawflow')  // فقط لود می‌کنیم، export اهمیتی ندارد
-  // Drawflow روی window اضافه شده
-  drawflowInstance = new window.Drawflow(drawflowContainer.value)
+  drawflowInstance = new Drawflow(drawflowContainer.value)
   drawflowInstance.start()
   drawflowInstance.zoom_out()
   drawflowInstance.addNode('Premium Scanner', 0, 1, 20, 70, '', {}, premiumHtml)

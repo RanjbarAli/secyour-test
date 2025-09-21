@@ -41,6 +41,7 @@ export default defineNuxtConfig({
     '~/assets/css/main.css'
   ],
 
+
   components: {
     global: true,
     dirs: ['~/components','~/components/icons']
@@ -68,10 +69,17 @@ export default defineNuxtConfig({
     layoutTransition: { name: 'layout', mode: 'out-in' },
     head: {
       link: [
-        { rel: 'icon', type: 'image/ico', href: '/32x32-favicon.ico', sizes: '32x32' },
+/*         { rel: 'icon', type: 'image/ico', href: '/32x32-favicon.ico', sizes: '32x32' },
         { rel: 'apple-touch-icon', type: 'image/ico', href: '/180x180-favicon.ico', sizes: '180x180' },
         { rel: 'icon', type: 'image/ico', href: '/192x192-favicon.ico', sizes: '192x192' },
-        { rel: 'icon', type: 'image/ico', href: '/360x360-favicon.ico', sizes: '360x360' },
+        { rel: 'icon', type: 'image/ico', href: '/360x360-favicon.ico', sizes: '360x360' }, */
+      ],
+      script: [
+        {
+          src: '/js/drawflow.min.js',
+          defer: false,
+          type: 'text/javascript'
+        }
       ],
       meta: [
         {
