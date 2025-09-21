@@ -74,7 +74,7 @@ const sendMessage = async () => {
                 <div class="card mt-3 px-3.5 py-2 rounded-xl bg-gradient-to-l from-white/10 to-white/0 flex justify-between items-center">
                     <span>پیج اینستاگرام :</span>
                     <div dir="ltr" class="flex items-center gap-3">
-                        <IconsInstagramSolid class="w-4.5 opacity-50" />
+                        <IconsInstagram class="w-4.5 opacity-50" />
                         <a class="mt-0.5 text-lg tracking-wider hover:text-sky-200" target="_blank" href="https://instagram.me/secyour.com">@secyour.com</a>
                     </div>
                 </div>

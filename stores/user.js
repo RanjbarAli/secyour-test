@@ -3,115 +3,103 @@ import { defineStore } from "pinia";
 
 export const useUserStore = defineStore('user', () => {
 
-    const runtimeConfig = useRuntimeConfig()
-
     const defaultUserObject = () => {
         return {
             id: 0,
-            token: '',
-            email: '',
-            phone: '',
-            displayName: '',
-            isPhoneVerified: false,
-            isEmailVerified: false,
-            type: 'free',
-            avatar: '',
-            money: 0,
-            notifications: {
-                email: {
-                        loginReport: true,
-                        scanResult: true,
-                        ticketStatusChange: false,
-                        walletChange: false
-                    },
-                    sms: {
-                        ticketStatusChange: true,
-                        walletChange: false
-                    }
-            }
+            name: "",
+            email: "",
+            mobile: "",
+            email_verified_at: null,
+            mobile_verified_at: null,
+            registered_at: "",
+            amount: 0,
+            token: ""
         }
     }
+
+    const pending = ref(false)
 
     // Base Information
     const info = ref({...defaultUserObject()})
 
+    const isLoggedIn = computed(() => info.value?.id > 0 && !!info.value?.token?.length)
+
+    const set = (newValue) => {
+        info.value = {...info.value, ...newValue}
+    }
+
+    const resetInfo = (removeCookie = true) => {
+        set(defaultUserObject())
+        if (removeCookie) {
+            const userToken = useCookie('user-token')
+            userToken.value = null
+        }
+    }
+
     // Logout request
     const logout = async () => {
-        if (!info.value?.token) return false
-        await useUserApiFetch().post(runtimeConfig.public.API_LOGOUT)
-        info.value = {...defaultUserObject()}
-        useLocalStorage.removeItem('user-token')
+        if (!isLoggedIn) return false
+        pending.value = 'logout'
+        await useUserApi().delete('auth/logout')
+        resetInfo()
+        pending.value = false
     }
     
     // Login to get data and token
-    const login = async (email, password) => {
-        let result = null
-        await useApiFetch().post(runtimeConfig.public.API_LOGIN, {email, password}).then(({ data }) => {
-            info.value = {...data}
-            useLocalStorage.setItem('user-token', data.token)
-            result = { status: 'ok' }
-        }).catch((error) => {
-            useLocalStorage.removeItem('user-token')
-            result = { status: 'error', message: getErrorMessage(error) }
-        })
-        return result
+    const sendCode = async (mobile) => {
+        try {
+            pending.value = 'send-code'
+            await useApi().post("auth/send-code", { mobile })
+            pending.value = false
+            return { success: true, ...info.value }
+        } catch (error) {
+            pending.value = false
+            return { success: false, message: useErrorMessage(error) }
+        }
     }
 
+    const login = async (mobile, otp) => {
+        try {
+            pending.value = 'login'
+            const { data: response } = await useApi().post("auth/login", { mobile, otp })
+            const { user, token } = response.data
+            set({...user, token: token.token})
+            const userToken = useCookie('user-token', {
+                expires: new Date(token.expired_at)
+            })
+            userToken.value = token.token
+            pending.value = false
+            return { success: true, ...info.value }
+        } catch (error) {
+            pending.value = false
+            const userToken = useCookie('user-token')
+            userToken.value = null
+            return { success: false, message: useErrorMessage(error) }
+        }
+    }
 
     // Get user from token
     const getUser = async (token, toast = true) => {
-        await useApiFetch().get(runtimeConfig.public.API_USER, {
+        pending.value = 'get'
+        await useApi().get('profile', {
             headers: {
                 'Authorization' : 'Bearer ' + token
             }
         }).then(({ data }) => {
-            info.value = {token, ...data}
-            useLocalStorage.setItem('user-token', token)
+            const { data : user } = data
+            set({...user, token})
+            const userToken = useCookie('user-token', {
+                maxAge: 60 * 60 * 24 * 2,
+                default: null
+            })
+            if (!userToken.value) userToken.value = token.token
         }).catch((error) => {
-            useLocalStorage.removeItem('user-token')
-            if(toast) useAlertError('get-user-from-token', getErrorMessage(error), { time: 4 })
+            const userTokenCookie = useCookie('user-token')
+            userTokenCookie.value = null
+            if(toast) useAlertError('get-user-from-token', useErrorMessage(error), { time: 4 })
         })
+        pending.value = false
     }
 
-    const update = async (props, headers = {}) => {
-        let result = null
-        await useUserApiFetch().patch(runtimeConfig.public.API_UPDATE_USER, props, headers).then(() => {
-            set(props)
-            result = { status: 'ok' }
-        }).catch((error) => {
-            result = { status: 'error', message: getErrorMessage(error) }
-        })
-        return result
-    }
-
-    const changePassword = async (currentPassword, newPassword) => {
-        let result = null
-        await useUserApiFetch().post(runtimeConfig.public.API_CHANGE_PASSWORD, {
-            current: currentPassword,
-            new: newPassword
-        }).then(() => {
-            result = { status: 'ok' }
-        }).catch((error) => {
-            result = { status: 'error', message: getErrorMessage(error) }
-        })
-        return result
-    }
-
-    const set = (props = {}) => {
-        info.value = {...info.value, ...props}
-    }
-
-    const refreshProperty = async (props) => {
-        props = Array.isArray(props)? props : [props]
-        await useUserApiFetch().get(runtimeConfig.public.API_USER + '/?only=' + encodeURIComponent(props)).then(({ data }) => {
-            props.forEach(prop => info.value[prop] = data[prop] );
-        }).catch((error) => {
-            useAlertError(`refresh-property-user`, getErrorMessage(error), { time: 4 })
-        })
-    }
-
-
-    const isLoggedIn = computed(() => !!info.value?.id && !!info.value?.email && !!info.value?.token)
-
-    return { info, isLoggedIn, set, update, getUser, login, logout, changePassword, refreshProperty, defaultUserObject }
+    return { info, isLoggedIn, set, pending, getUser, login, logout, defaultUserObject, sendCode }
 });

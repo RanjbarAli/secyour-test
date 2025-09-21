@@ -1,0 +1,17 @@
+#default-layout {
+  @apply bg-primary-navy-darker text-white;
+  footer {
+    background: linear-gradient( to top,rgba(0, 0, 0, 0.4) 0%,rgba(0, 0, 0, 0) 100% );
+
+    .head-col {
+      @apply font-bold mb-3 text-lg text-white;
+    }
+
+    .link {
+      @apply pr-3 hover:text-white border-r border-white/20 hover:border-white;
+    }
+  }
+  .auth-layout .buttons-group {
+    @apply mt-auto w-full grid grid-cols-2 gap-4 max-xs:grid-cols-1;
+  }
+}

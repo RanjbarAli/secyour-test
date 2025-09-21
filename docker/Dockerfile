@@ -1,22 +1,34 @@
-FROM node:18-alpine
+# Stage 1: Build
+FROM node:18-alpine as builder
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the package.json and package-lock.json
-COPY package*.json ./
+COPY package.json ./
 
-# Install dependencies
-RUN npm install
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Copy the rest of your app's source code
+# Regular install (not frozen) - use this if you don't have a lockfile
+RUN pnpm install
+
 COPY . .
 
-# Build your Next.js app
-RUN npm run build
+RUN pnpm run build
 
-# Expose port 3000 to the Docker daemon so it can communicate
+# Stage 2: Production
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package.json ./
+
+RUN rm -rf node_modules package-lock.json
+
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+RUN pnpm install
+
+COPY --from=builder /app/.output ./.output
+
 EXPOSE 3000
 
-# Run the Next.js start script
-CMD ["npm", "start"]
+CMD ["node", ".output/server/index.mjs"]

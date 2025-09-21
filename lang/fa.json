@@ -1,0 +1,84 @@
+{
+    "site-name": "سکیور",
+    "home": "صفحه اصلی",
+    "dashboard": "داشبورد",
+    "support": "پشتیبانی",
+    "scan": "اسکن",
+    "about": "درباره ما",
+    "faqs": "سوالات متداول",
+    "terms": "قوانین استفاده",
+    "privacy-policy": "سیاست حفظ حریم خصوصی",
+    "contact": "ارتباط با ما",
+    "login": "ورود",
+    "create-account": "ایجاد حساب",
+    "account": "حساب کاربری",
+    "iran": "ایران",
+    "site-scan": "اسکن سایت",
+    "source-scan": "اسکن سورس",
+    "monitored-sites": "سایت های تحت نظارت",
+    "scans-list": "لیست اسکن ها",
+    "new-ticket": "تیکت جدید",
+    "tickets": "تیکت ها",
+    "verify-account": "احراز هویت",
+    "increase-balance": "افزایش موجودی",
+    "change-password": "تغییر رمز عبور",
+
+
+
+
+
+    "pages": {
+        "index": {
+            "intro": {
+                "head-first": "پیشرو در حوزه",
+                "head-last": "امنیت شبکه در سطح ایران!",
+                "description-head": "امنیت سایت، بلکه مزیت نیست، یک اولویت است ...",
+                "description-body": "سکیور امنیت سایت و سرور و حتی سورس کد شما را ارزیابی و آسیب پذیری آن را اسکن می کند و گزارش مربوط به امنیت آن را در اختیارتان قرار می دهد. "
+            }
+        }
+    },
+
+
+
+
+
+
+    "success-register": "ثبت نام با موفقیت انجام شد.",
+    "all-fields-required": "پر کردن همه موارد الزامی است.",
+
+
+
+
+    "validation": {
+        "required": "{attribute} نباید خالی باشد.",
+        "email": "فرمت {attribute} معتبر نیست.",
+        "url": "{attribute} وارد شده معتبر نیست.",
+        "phone": "{attribute} باید یک شماره موبایل معتبر باشد.",
+        "min": "{attribute} باید حداقل {min} کاراکتر طول داشته باشد.",
+        "max": "{attribute} باید حداکثر {max} کاراکتر طول داشته باشد.",
+        "length": "{attribute} باید {len} کاراکتر طول داشته باشد.",
+        "regex": "{attribute} معتبر نیست.",
+        "same": "{attribute} باید برابر با {same} باشد.",
+        "starts": "{attribute} باید با حرف {starts} شروع شود.",
+        "ends": "{attribute} باید با حرف {ends} پایان یابد.",
+        "integer": "{attribute} باید یک عدد صحیح باشد.",
+        "exists": "{attribute} باید در لیست وجود داشته باشد: {exists}.",
+        "not_exists": "{attribute} نباید در لیست وجود داشته باشد: {exists}.",
+        "extensions": "{attribute} باید یکی از پسوندهای زیر را داشته باشد: {extensions}.",
+        "mimes": "{attribute} باید از یکی از انواع زیر باشد: {mimes}.",
+        "image": "{attribute} باید یک فایل تصویر معتبر باشد.",
+        "file": "{attribute} باید یک فایل باشد.",
+        "size": "{attribute} باید اندازه‌ای داشته باشد که با معیارهای مشخص شده مطابقت داشته باشد. ({operator}, {args})",
+        "type": "{attribute} باید از نوع {type} باشد.",
+        "is_true": "{attribute} باید درست باشد.",
+        "is_false": "{attribute} باید نادرست باشد.",
+        "terms": "قوانین و مقررات را باید بپذیرید."
+    },
+    "attributes": {
+        "name": "نام مستعار",
+        "email": "ایمیل",
+        "mobile": "شماره همراه",
+        "password": "رمز عبور",
+        "password_confirmation": "تایید رمز عبور"
+    }
+}

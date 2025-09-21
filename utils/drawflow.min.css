@@ -1,0 +1,181 @@
+.drawflow,
+.drawflow .parent-node {
+  position: relative;
+}
+
+.parent-drawflow {
+  display: flex;
+  overflow: hidden;
+  touch-action: none;
+  outline: 0;
+  background: rgba(255, 255, 255, 0.15);
+  background-size: 13px 13px;
+  background-image: radial-gradient(rgba(208, 208, 208, .15) 1px, transparent 1px);
+}
+
+.drawflow {
+  width: 100%;
+  height: 500px;
+  user-select: none;
+  perspective: 0;
+}
+
+.drawflow .drawflow-node {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  background: #222;
+  font-size: 14px;
+  color: #fff;
+  border-radius: 14px;
+  min-height: 22px;
+  width: auto;
+  min-width: 82px;
+  padding: 12px 20px;
+  -webkit-box-shadow: 0px 3px 16px 2px rgba(102, 102, 102, 0.35);
+  box-shadow: 0px 3px 16px 2px rgba(102, 102, 102, 0.35);
+  z-index: 2;
+}
+
+.drawflow .drawflow-node:hover {
+  cursor: move;
+  -webkit-box-shadow: 0px 3px 16px 2px rgba(102, 102, 102, 0.45);
+  box-shadow: 0px 3px 16px 2px rgba(102, 102, 102, 0.45);
+}
+
+.drawflow .drawflow-node.selected {
+  -webkit-box-shadow: 0px 3px 16px 2px rgba(78, 169, 255, 0.5);
+  box-shadow: 0px 3px 16px 2px rgba(78, 169, 255, 0.5);
+}
+
+.drawflow .drawflow-node .inputs,
+.drawflow .drawflow-node .outputs {
+  width: 0;
+  float: none;
+}
+
+.drawflow .drawflow-node .drawflow_content_node {
+  width: 100%;
+  display: block;
+}
+
+.drawflow .drawflow-node .input,
+.drawflow .drawflow-node .output {
+  position: relative;
+  cursor: crosshair;
+  z-index: 1;
+  margin-bottom: 5px;
+  height: 14px;
+  width: 14px;
+  border-radius: 10px;
+  background: #ffffff;
+  top: 2px;
+}
+
+.drawflow .drawflow-node .input {
+  left: -27px;
+  border: 2px solid #00a2ff;
+}
+
+.drawflow .drawflow-node .input:hover {
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 50px;
+}
+
+.drawflow .drawflow-node .output {
+  right: -13px;
+  border: 2px solid #636eff;
+}
+
+.drawflow .drawflow-node .output:hover {
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 50px;
+}
+
+.drawflow svg {
+  z-index: 0;
+  position: absolute;
+  overflow: visible !important;
+}
+
+.drawflow .connection {
+  position: absolute;
+  pointer-events: none;
+  aspect-ratio: 1/1;
+}
+
+.drawflow .connection .main-path {
+  fill: none;
+  stroke-width: 4px;
+  stroke: rgb(22, 86, 189);
+  pointer-events: all;
+}
+
+.drawflow .connection .main-path:hover {
+  stroke: #4682b4;
+  cursor: pointer;
+}
+
+.drawflow .connection .main-path.selected {
+  stroke: #43b993;
+}
+
+.drawflow .connection .point {
+  cursor: move;
+  stroke: #000000;
+  stroke-width: 2px;
+  fill: #ffffff;
+  pointer-events: all;
+}
+
+.drawflow .connection .point:hover,
+.drawflow .connection .point.selected {
+  stroke: #000000;
+  stroke-width: 2px;
+  fill: #ffffff;
+}
+
+.drawflow .main-path {
+  fill: none;
+  stroke-width: 4px;
+  stroke: #4682b4;
+}
+
+.drawflow-delete {
+  position: absolute;
+  display: block;
+  width: 24px;
+  height: 24px;
+  background: rgba(194, 14, 14, 1);
+  color: #ffffff;
+  z-index: 4;
+  border: 0px solid #ffffff;
+  line-height: 20px;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 50px;
+  font-family: monospace;
+  cursor: pointer;
+}
+
+.drawflow>.drawflow-delete {
+  margin-left: -15px;
+  margin-top: 15px;
+}
+
+.parent-node .drawflow-delete {
+  right: -10px;
+  top: -12px;
+}
+
+.drawflow-delete:hover {
+  color: rgba(255, 255, 255, 1);
+  background: rgba(116, 15, 15, 1);
+  border: 0px solid #000000;
+  border-radius: 50px;
+}
+#node-1 .drawflow-delete {
+    display: none;
+}

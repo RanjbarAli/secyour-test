@@ -1,180 +1,131 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "./includes/fonts.css";
+@import "./includes/inputs.css";
+@import "./includes/alerts.css";
+@import "./includes/default-layout.css";
+@import "./includes/panel-layout.css";
+@source "./pages/";
+@source "./layouts/";
+@source "./components/";
+@custom-variant dark (&:where(.dark, .dark *));
 
-@font-face {
-    font-family: "Yekan Bakh";
-    src: url("../fonts/YekanBakh-Regular.eot");
-    src: url("../fonts/YekanBakh-Regular.eot?#iefix")
-            format("embedded-opentype"),
-        url("../fonts/YekanBakh-Regular.woff") format("woff");
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
+@theme {
+  --breakpoint-xs: 30rem;
+  --breakpoint-ml: 56rem;
+  --text-4\.5xl: 2.5rem;
+  --text-4\.5xl--line-height: 1.2;
+  --color-primary-navy-darker: #0c0e13;
+  --color-primary-darker: #1D1D1D;
+  --color-primary-dark: #282828;
+  --color-primary-light: #383838;
+  --color-primary-lighter: hsl(0, 0%, 85%);
+  --color-primary-heavy-light: #e6e6e6;
 
-@font-face {
-    font-family: "Yekan Bakh";
-    src: url("../fonts/YekanBakh-Bold.eot");
-    src: url("../fonts/YekanBakh-Bold.eot?#iefix") format("embedded-opentype"),
-        url("../fonts/YekanBakh-Bold.woff") format("woff");
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-}
+  /* INDEX PAGES */
+  --1fr-auto-1fr: 1fr auto 1fr;
 
-@font-face {
-    font-family: "Yekan Bakh";
-    src: url("../fonts/YekanBakh-Heavy.eot");
-    src: url("../fonts/YekanBakh-Heavy.eot?#iefix") format("embedded-opentype"),
-        url("../fonts/YekanBakh-Heavy.woff") format("woff");
-    font-weight: 800;
-    font-style: normal;
-    font-display: swap;
+  /* USER PANEL */
 }
 
 @layer base {
-    html,
-    body {
-        direction: rtl;
-        @apply scroll-smooth text-white;
+  * {
+    font-family: "DanaFaNum", "Mulish", sans-serif;
+    scrollbar-width: thin;
+    text-decoration: none;
+  }
+  html,
+  body {
+    @apply scroll-smooth;
+    direction: rtl;
+  }
+  ::-webkit-scrollbar,
+  *::-webkit-scrollbar {
+    @apply w-2;
+  }
+  a {
+    @apply text-inherit;
+  }
+  
+}
+
+@layer components {
+  .layout-blurs {
+    @apply absolute size-full z-[-1] overflow-hidden pointer-events-none;
+    &::before,
+    &::after,
+    ::after,
+    ::before {
+      content: "";
+      width: 1px;
+      height: 1px;
+      position: absolute;
+      border-radius: 50%;
+      transform: translate3d(0, 0, 0);
+      will-change: filter;
     }
-    ::-webkit-scrollbar,
-    *::-webkit-scrollbar {
-        width: 8px;
+    &::before {
+      right: 0;
+      top: -500px;
+      box-shadow: 0 0 1100px 1100px var(--color-blue-500),
+        0 0 500px 500px var(--color-indigo-500);
+      opacity: 0.2;
     }
-    * {
-        @apply m-0 p-0 list-none box-border;
-        font-family: "Yekan Bakh", Arial, sans-serif;
-        text-decoration: none;
-        transition: all 0.25s ease;
-        letter-spacing: 0.02rem;
-        scrollbar-width: thin;
+    &::after {
+      left: -50px;
+      top: 33%;
+      box-shadow: 0 0 500px 500px var(--color-yellow-800);
+      opacity: 0.15;
     }
-    button,
-    input[type="submit"] {
-        @apply cursor-pointer text-sm disabled:opacity-70 disabled:cursor-default;
-    }
-    a {
-        color: unset;
-    }
-    .card {
-        @apply float-right w-full;
-    }
-    input:focus,
-    textarea:focus,
-    button:focus {
-        outline: none;
-    }
-    input,
-    textarea {
-        background: inherit;
-    }
-    .container {
-        width: min(1140px, 100%);
-        @apply px-5 mx-auto
-    }
-    .highlight-html {
-        word-spacing: 1px;
-    }
-    .highlight-html a:link {
-        @apply text-blue-500 dark:text-blue-400 underline underline-offset-8 hover:text-blue-700 dark:hover:text-blue-200
-    }
-    .animation-spin {
-        animation: animation-spin 3.5s linear infinite;
-    }
-    @keyframes animation-spin {
-        from {
-            transform: rotate(0);
-        }
-        to {
-            transform: rotate(-360deg);
-        }
+    .group-1 {
+      &::before {
+        right: -10px;
+        top: 66%;
+        opacity: 0.15;
+        box-shadow: 0 0 450px 450px var(--color-emerald-700);
+      }
     }
 
-    .wow.animated {
-        animation-duration: 1s;
-        animation-fill-mode: both;
-        animation-iteration-count: 1;
-    }
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
+  }
+  .glass, .hover\:glass:hover {
+    @apply bg-gradient-to-b from-white/9 to-white/4 backdrop-blur-sm;
+  }
+  .glass {
+    @apply border border-white/8;
+  }
 
-        to {
-            opacity: 1;
-        }
+  @media screen and (min-width: 48rem) {
+    .md\:glass {
+      @apply bg-gradient-to-b from-white/9 to-white/4 backdrop-blur-sm border border-white/8;
     }
-    .wow.animated.a-fadeIn {
-        animation-name: fadeIn;
-    }
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translate3d(0, 50px, 0);
-        }
+  }
+}
 
-        to {
-            opacity: 1;
-            transform: translate3d(0, 0, 0);
-        }
-    }
-    .wow.animated.a-fadeInUp {
-        animation-name: fadeInUp;
-    }
-    @media screen and (max-width: 560px) {
-        .wow.animated.xs\:a-fadeInUp {
-            animation-name: fadeInUp;
-        }
-    }
-    @keyframes fadeInDown {
-        from {
-            opacity: 0;
-            transform: translate3d(0, -50px, 0);
-        }
-
-        to {
-            opacity: 1;
-            transform: translate3d(0, 0, 0);
-        }
-    }
-    .wow.animated.a-fadeInDown {
-        animation-name: fadeInDown;
-    }
-    .isLoading {
-        background-image: linear-gradient(
-            110deg,
-            #ececec 8%,
-            #fcfcfc 18%,
-            #ececec 33%
-        );
-        background-size: 200% 100%;
-        animation: 1s shine linear infinite;
-        display: block;
-        margin: 5px auto;
-        max-width: 100%;
-    }
-    .dark .isLoading {
-        background-image: linear-gradient(
-            110deg,
-            #ffffff20 8%,
-            #ffffff30 18%,
-            #ffffff20 33%
-        );
-    }
-    @keyframes shine {
-        to {
-            background-position-x: -200%;
-        }
-    }
-
-    .x-flip {
-        transform: rotateX(180deg);
-        transform-origin: center;
-    }
-    .y-flip {
-        transform: rotateY(180deg);
-        transform-origin: center;
-    }
+@layer utilities {
+  .container {
+    @apply w-full mx-auto px-4 max-w-280;
+  }
+  .linked-text {
+    @apply text-blue-300 hover:text-blue-400;
+  }
+  .card {
+    @apply float-right w-full;
+  }
+  .iran-text {
+    background: #fff linear-gradient(5deg, #d14545 0%, #fff 50%, #3c9e53 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+  }
+  .page-enter-active,
+  .page-leave-active,
+  .layout-enter-active,
+  .layout-leave-active {
+    @apply transition-all duration-100;
+  }
+  .page-enter-from,
+  .page-leave-to,
+  .layout-enter-from,
+  .layout-leave-to {
+    @apply opacity-0;
+  }
 }

@@ -1,67 +1,86 @@
 <script setup>
-
 const userStore = useUserStore()
-
 const route = useRoute()
+
+const isScrolled = ref(false);
+const isMenuOpen = ref(false)
+if (process.client) {
+    isScrolled.value = window.scrollY > 5;
+    onMounted(() => {
+        window.addEventListener('scroll', () => {
+            isScrolled.value = window.scrollY > 5;
+        });
+    });
+    onUnmounted(() => {
+        window.removeEventListener('scroll', () => {
+            isScrolled.value = window.scrollY > 5;
+        });
+    });
+}
+const menuLinks = [
+    { title: useTrans('home'), to: '/' },
+    { title: useTrans('about'), to: '/about' },
+    { title: useTrans('terms'), to: '/terms' },
+    { title: useTrans('contact'), to: '/contact' }
+]
 </script>
 
 <template>
-    <nav class="card relative z-998 sm:py-3 sm:bg-main-gray-900 sm:mb-[32px] sm:sticky sm:top-0 sm:right-0 py-7">
-        <div class="container grid items-center gap-1 grid-cols-1-auto-1 lg:grid-cols-auto-auto lg:gap-y-5 sm:grid-cols-1-auto-1">
-            <ul class="flex gap-8 drop-shadow-sm xl:gap-6">
-                <li @click="useEvent('sidebar-menu')" id="toggle-sidebar" class="hidden sm:block">
-                    <IconsList class="w-7 text-white" />
+    <nav :class="['card menu-wrapper', isScrolled ? 'scrolled' : 'not-scrolled']">
+        <div class="container">
+            <NuxtLink to="/" class="flex items-center gap-2 drop-shadow-md">
+                <img src="/images/logo.png" alt="logo">
+                <span class="text-2xl font-bold uppercase leading-7 text-white mt-1">{{ useTrans('site-name') }}</span>
+            </NuxtLink>
+            <ul class="action-list gap-8 max-lg:gap-5 max-md:-order-1">
+                <li class="menu-link md:hidden">
+                    <IconsList class="h-6 float-start" @click.prevent="isMenuOpen = !isMenuOpen" />
                 </li>
-                <li class="menu-link">
-                    <NuxtLink to="/">صفحه اول</NuxtLink>
-                </li>
-                <li class="menu-link">
-                    <NuxtLink to="/about-us">درباره ما</NuxtLink>
-                </li>
-                <li class="menu-link always-show">
-                    <NuxtLink to="/#plans">پلن ها</NuxtLink>
-                </li>
-                <li class="menu-link">
-                    <NuxtLink to="/references">منابع</NuxtLink>
-                </li>
-                <li class="menu-link">
-                    <NuxtLink to="/contact">ارتباط با ما</NuxtLink>
+                <li class="menu-link max-md:hidden" v-for="link in menuLinks">
+                    <NuxtLink :to="link.to">{{ link.title }}</NuxtLink>
                 </li>
             </ul>
-            <NuxtLink to="/" id="logo" class="lg:col-span-full lg:-order-1 sm:order-none sm:col-span-1">
-                <InlineLogo class="block mx-auto drop-shadow-sm" />
-            </NuxtLink>
-            <div class="flex gap-3 items-center justify-end">
-                <NuxtLink to="/contact" class="btn-bg sm:!bg-none sm:p-0 rounded-xl py-2 px-2 items-center flex gap-2">
-                    <IconsHeadphone class="w-4 sm:w-6 m-px sm:m-0" />
+            <div class="action-list gap-3 justify-end">
+                <NuxtLink v-if="route.name != 'auth'" :to="userStore.isLoggedIn? '/panel' : '/auth'" class="btn btn-blue max-md:!hidden">
+                    <span class="text-sm">{{ useTrans('account') }}</span>
+                    <IconsArrowLeft class="h-2.5" />
                 </NuxtLink>
-                <NuxtLink v-if="!userStore.isLoggedIn && route.name != 'login'" to="/login"
-                    class="sm:hidden btn-bg rounded-xl py-1.5 px-4 items-center flex gap-2">
-                    <span class="text-sm mt-0.5">ورود</span>
-                </NuxtLink>
-                <NuxtLink v-if="!userStore.isLoggedIn && route.name != 'register'" to="/register"
-                    class="sm:hidden bg-gradient-to-r to-sky-800/30 from-sky-800 hover:bg-sky-800/50 rounded-xl py-1.5 px-3 items-center flex gap-2">
-                    <span class="text-sm mt-0.5">ایجاد حساب</span>
-                    <IconsArrowLeft class="h-2" />
-                </NuxtLink>
-                <NuxtLink v-if="userStore.isLoggedIn" to="/panel"
-                    class="sm:hidden btn-bg rounded-xl py-1.25 px-3 items-center flex gap-2">
-                    <span class="text-sm mt-0.5">حساب کاربری</span>
-                    <IconsArrowLeft class="h-2" />
+                <NuxtLink :to="userStore.isLoggedIn? '/panel' : '/auth'" class="md:hidden">
+                    <IconsUser class="float-start h-6" />
                 </NuxtLink>
             </div>
         </div>
     </nav>
+    <ClientOnly>
+        <Teleport to="body">
+            <SidebarMenu :links="[...menuLinks, { title: useTrans('account'), to: '/panel' }]" v-model="isMenuOpen" :class="{'is-open': isMenuOpen}" />
+        </Teleport>
+    </ClientOnly>
 </template>
 
-<style lang="postcss" scoped>
-.menu-link {
-    @apply sm:hidden hover:text-main-gray-100
+<style scoped>
+@reference "~/assets/css/main.css";
+
+.menu-wrapper {
+    @apply fixed top-0 right-0 z-998 max-md:backdrop-blur-md max-md:bg-white/5 max-md:shadow-lg will-change-auto transform-gpu;
+    &.scrolled {
+        @apply backdrop-blur-lg bg-white/10 shadow-lg shadow-slate-700/10;
+        .container {
+            @apply py-3;
+        }
+    }
+    .container {
+        @apply py-7 max-md:py-3 grid grid-cols-(--1fr-auto-1fr) gap-3 transition-all duration-150;
+    }
+    .router-link-exact-active {
+        @apply text-blue-200;
+    }
+    .action-list {
+        @apply flex items-center;
+    }
+    .menu-link a:hover {
+        @apply text-blue-100;
+    }
 }
-.menu-link:not(.always-show):has(.router-link-exact-active) {
-    @apply hidden
-}
-.btn-bg {
-    @apply bg-gradient-to-r to-white/5 from-white/10 hover:bg-white/10
-}
+
 </style>

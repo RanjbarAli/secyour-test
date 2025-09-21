@@ -1,0 +1,68 @@
+button, input[type="submit"] { @apply not-disabled:cursor-pointer disabled:opacity-70; }
+input:focus, textarea:focus, button:focus { @apply outline-none; }
+
+
+.btn {
+    @apply justify-center relative bg-gradient-to-r items-center flex gap-1.5 transition-all duration-300;
+    &.btn-large {
+        @apply rounded-2xl py-2 px-3.5 shadow-md not-disabled:hover:shadow-lg;
+    }
+    &:not(.btn-large) {
+        font-size: 15px;
+        @apply rounded-xl py-1.75 px-3 shadow-sm not-disabled:hover:shadow-md;
+    }
+    &.btn-blue {
+        @apply from-blue-500/80 shadow-blue-500/20 to-blue-900/80 not-disabled:hover:to-blue-900;
+    }
+    &.btn-black {
+        @apply to-white/5 shadow-black/10 from-white/10 not-disabled:hover:bg-white/10;
+    }
+    &.btn-white {
+        @apply text-white border border-white/70 shadow-white/15 shadow-md opacity-90 not-disabled:hover:opacity-100;
+    }
+    &.btn-emerald {
+        @apply from-emerald-600/80 shadow-emerald-600/20 to-emerald-900/80 not-disabled:hover:to-emerald-900;
+    }
+}
+
+.form-input {
+    @apply float-right w-full relative shadow-sm shadow-black/10;
+    input {
+        @apply text-sm float-right w-full transition-all duration-200 bg-white/10 pr-12 px-5 rounded-2xl border shadow;
+    }
+    &.otp {
+        @apply shadow-none;
+        input {
+            @apply p-3 shrink grow-0 text-center;
+        }
+    }
+    .error-message {
+        @apply w-full float-right text-sm text-red-400 mt-2 text-right;
+        direction: rtl;
+    }
+    .icon {
+        @apply w-4 absolute top-1/2 -translate-y-1/2 right-5 opacity-60;
+    }
+    label {
+        @apply absolute right-12 transition-all pointer-events-none;
+        &.active {
+            @apply top-1.5 text-xs opacity-60;
+        }
+        &.not-active {
+            @apply top-1/2 text-sm -translate-y-1/2 opacity-80;
+        }
+    }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: white;
+  transition: background-color 0s ease-in-out 9999999s;
+}

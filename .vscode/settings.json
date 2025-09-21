@@ -1,0 +1,23 @@
+{
+    "workbench.colorTheme": "Default Dark+",
+    "workbench.preferredDarkColorTheme": "Default High Contrast",
+    "workbench.preferredHighContrastColorTheme": "Visual Studio Dark",
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.tree.indent": 10,
+    "workbench.view.alwaysShowHeaderActions": false,
+    "explorer.fileNesting.enabled": false,
+    "explorer.excludeGitIgnore": true,
+    "explorer.expandSingleFolderWorkspaces": true,
+    "explorer.incrementalNaming": "smart",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        ".idea": true,
+        ".nuxt": true,
+        "node_modules": true
+    }
+}
